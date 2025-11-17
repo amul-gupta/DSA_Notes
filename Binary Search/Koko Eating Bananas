@@ -1,0 +1,56 @@
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        
+       int n = piles.length;
+       int low = 1;
+       int high = piles[0];
+
+       for(int i=0;i<n;i++)
+       {
+          low = Math.min(low,piles[i]);
+          high = Math.max(high,piles[i]);
+       }
+
+       int ans = high;
+
+       while(low<=high)
+       {
+            int mid = (low+high)/2;
+
+            if(helper(mid,h,piles))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+       }
+
+       return ans;
+    }
+
+    static boolean helper(int poss,int h,int arr[])
+    {
+        int n = arr.length;
+        
+        System.out.println(poss);
+       for(int i=0;i<n;i++)
+       {
+           h = h - (arr[i] / poss);
+
+           if(arr[i]%poss > 0)
+           h = h -1;
+
+           if(h<0)
+           return false;
+       }
+
+        return true;
+    }
+}
+
+
+Time Complexity: O(n log n)
+Space Complexity: O(1)
