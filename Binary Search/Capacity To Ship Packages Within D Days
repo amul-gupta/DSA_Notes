@@ -1,0 +1,57 @@
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        
+        int left = 0;
+        int right = 0;
+
+        // Find search range
+        for (int k : weights) {
+            left = Math.max(left, k);
+            right = right + k;
+
+        }
+
+        int result = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (helper(weights, days, mid)) {
+                result = mid;
+                right = mid - 1; // try smaller day
+            } else {
+                left = mid + 1;  // need more days
+            }
+        }
+
+        return result;
+    }
+
+     private boolean helper(int[] arr, int days, int sum) {
+       
+       int currday = 1;
+       int curr =0;
+
+       for(int i=0;i<arr.length;i++)
+       {
+          if(curr+arr[i] <= sum)
+          {
+             curr = curr + arr[i];
+          }
+          else
+          {
+               curr = arr[i];
+               currday = currday + 1;
+          }
+
+          if(currday > days)
+          return false;
+       }
+
+       return true;
+    }
+}
+
+
+Time Complexity: O(n log n)
+Space Complexity: O(1)
