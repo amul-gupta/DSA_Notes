@@ -1,0 +1,48 @@
+class Solution {
+
+    Node flatten(Node root) {
+        if (root == null) return null;
+
+        Node result = root;
+        Node curr = root.next;
+
+        // Disconnect the first list
+        result.next = null;
+
+        while (curr != null) {
+            Node next = curr.next;   // save next list
+            curr.next = null;        // detach current list
+
+            result = merge(result, curr);
+            curr = next;
+        }
+
+        return result;
+    }
+
+    // Merge two sorted bottom-linked lists
+    Node merge(Node a, Node b) {
+        Node dummy = new Node(0);
+        Node temp = dummy;
+
+        while (a != null && b != null) {
+            if (a.data <= b.data) {
+                temp.bottom = a;
+                a = a.bottom;
+            } else {
+                temp.bottom = b;
+                b = b.bottom;
+            }
+            temp = temp.bottom;
+            temp.next = null; // IMPORTANT
+        }
+
+        if (a != null) temp.bottom = a;
+        if (b != null) temp.bottom = b;
+
+        return dummy.bottom;
+    }
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
