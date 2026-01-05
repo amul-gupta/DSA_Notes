@@ -1,0 +1,35 @@
+class Solution {
+    public int maxSubarraySum(int[] arr, int k) {
+        // Code here
+        int ans = -1;
+        int n= arr.length;
+        
+        int i=0;
+        int j=0;
+        int sum=0;
+        while(j<n)
+        {
+            if(j-i+1 == k)
+            {
+                 sum = sum + arr[j];
+                 
+                 //collect ans
+                 ans = Math.max(ans,sum);
+                 
+                 sum=sum-arr[i];
+                 i++;
+                 j++;
+            }
+            else
+            {
+                sum=sum+arr[j];
+                j++;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+Time Complexity: O(n)
+Space Complexity: O(1)
